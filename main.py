@@ -1,6 +1,7 @@
 import itertools
 import time
 from threading import Thread, Event
+# Текущая страница книги 654
 
 
 def spin(msg: str, done: Event):
