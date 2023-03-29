@@ -24,6 +24,8 @@ def supervisor() -> int:
     spinner = Thread(target=spin, args=('Ожидайте', done))
     print(f'объект прокрутки:{spinner}')
     spinner.start()
+    print('')
+    print(f'Текущее состояние объекта прокрутки:{spinner}')
     result = slow()
     done.set()
     spinner.join()
