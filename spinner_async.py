@@ -1,6 +1,7 @@
 import asyncio
 import itertools
-
+import time
+from healthy_sleep import is_prime
 
 async def spin(msg: str):
     for char in itertools.cycle(r'\|/'):
@@ -22,7 +23,7 @@ async def slow() -> int:
 async def supervisor():
     spinner = asyncio.create_task(spin('Поехали'))
     print(f'Объект прокрутки: {spinner}')
-    result = await slow()
+    result = await is_prime(5_000_111_000_222_021)
     spinner.cancel()
     return result
 
