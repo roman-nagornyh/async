@@ -14,5 +14,18 @@ async def spin(msg: str):
     print(f'\r{blanks}\r', end='')
 
 
+async def slow() -> int:
+    await asyncio.sleep(5)
+    return 42
+
+
 async def supervisor():
-    spinner = asyncio.create_task()
+    spinner = asyncio.create_task(spin('Поехали'))
+    print(f'Объект прокрутки: {spinner}')
+    result = await slow()
+    spinner.cancel()
+    return result
+
+
+result = asyncio.run(supervisor())
+print(f'Ответ: {result}')
