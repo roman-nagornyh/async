@@ -2,6 +2,8 @@ import asyncio
 import itertools
 import time
 from healthy_sleep import is_prime
+import aiohttp
+
 
 async def spin(msg: str):
     for char in itertools.cycle(r'\|/'):
@@ -15,15 +17,18 @@ async def spin(msg: str):
     print(f'\r{blanks}\r', end='')
 
 
-async def slow() -> int:
-    await asyncio.sleep(5)
-    return 42
+async def get_actual_marks():
+    url = ''
+    async with aiohttp.ClientSession() as session:
+        async with session.get(url, params={'token': ''}) as res:
+            print(res.status)
+            return await res.text()
 
 
 async def supervisor():
-    spinner = asyncio.create_task(spin('Поехали'))
+    spinner = asyncio.create_task(spin('Получение информации с api'))
     print(f'Объект прокрутки: {spinner}')
-    result = await is_prime(5_000_111_000_222_021)
+    result = await get_actual_marks()
     spinner.cancel()
     return result
 
