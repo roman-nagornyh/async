@@ -34,6 +34,20 @@ def download_many(cc_list: list[str]) -> int:
     return len(list(res))
 
 
+def download_many_two(cc_list: list[str]) -> int:
+    cc_list = cc_list[:5]
+    with futures.ThreadPoolExecutor(max_workers=3) as executor:
+        to_do: list[futures.Future] = []
+        for cc in sorted(cc_list):
+            future = executor.submit(download_one, cc)
+            to_do.append(future)
+            print(f'План для страны {cc}: {future}')
+        for count, future in enumerate(futures.as_completed(to_do), 1):
+            res: str = future.result()
+            print(f'{future} результат: {res !s}')
+        return count
+
+
 def flags_loader(downloader: Callable[[list[str]], int]) -> None:
     DEST_DIR.mkdir(exist_ok=True)
     t0 = time.perf_counter()
@@ -42,4 +56,4 @@ def flags_loader(downloader: Callable[[list[str]], int]) -> None:
     print(f'\n {count} загружено за {elapsed:.2f} с')
 
 
-flags_loader(download_many)
+flags_loader(download_many_two)
