@@ -56,4 +56,4 @@ def flags_loader(downloader: Callable[[list[str]], int]) -> None:
     print(f'\n {count} загружено за {elapsed:.2f} с')
 
 
-flags_loader(download_many_two)
+#flags_loader(download_many_two)
